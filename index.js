@@ -11,7 +11,7 @@ module.exports = class Equirectangular {
 
   }
 
-  init() {
+  async init() {
 
     const o = this._options;
 
@@ -39,15 +39,11 @@ module.exports = class Equirectangular {
       throw new TypeError(`Expected \`cols\` to be a number, got \`${o.cols}\` (${typeof o.cols})`);
     }
 
-    if ( ! ((typeof o.file === 'string') && (o.file.length > 0))) {
-      throw new TypeError(`Expected \`file\` to be a string, got \`${o.file}\` (${typeof o.file})`);
+    if ( ! ((typeof o.input === 'string') && (o.input.length > 0) && await util.pathExists(o.input, true))) {
+      throw new TypeError(`Expected \`input\` to be a string and resolve to a path that exists, got \`${o.input}\` (${typeof o.input})`);
     }
 
-    if ( ! ((typeof o.tiles === 'string') && (o.tiles.length > 0) && util.pathExists(o.tiles))) {
-      throw new TypeError(`Expected \`tiles\` to be a string and resolve to a path that exists, got \`${o.tiles}\` (${typeof o.tiles})`);
-    }
-
-    if ( ! ((typeof o.output === 'string') && (o.output.length > 0) && util.pathExists(o.output))) {
+    if ( ! ((typeof o.output === 'string') && (o.output.length > 0) && await util.pathExists(o.output, true))) {
       throw new TypeError(`Expected \`output\` to be a string and resolve to a path that exists, got \`${o.output}\` (${typeof o.output})`);
     }
 
@@ -67,9 +63,8 @@ module.exports = class Equirectangular {
         tile_height: o.tile.height,
         crop_width: o.crop.width,
         crop_height: o.crop.height,
-        tiles: util.resolvePath(o.tiles),
+        input: util.resolvePath(o.input),
         output: util.resolvePath(o.output),
-        file: o.file,
       })
     );
 
