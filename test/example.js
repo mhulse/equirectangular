@@ -1,4 +1,4 @@
-const equirectangular = require('../index');
+const Equirectangular = require('../index');
 
 const options = {
   crop: {
@@ -11,14 +11,20 @@ const options = {
   },
   rows: 10,
   cols: 20,
-  image_key: 'AF1QipMspd7xEt_zPak1U5R3z250U9tOLpPy_1L6aNsA'
+  tiles: './test/tiles',
+  output: './test',
+  file: 'AF1QipMspd7xEt_zPak1U5R3z250U9tOLpPy_1L6aNsA',
 };
 
 (async () => {
 
-  const pano = await equirectangular(options);
+  console.log('before');
+
+  const pano = await new Equirectangular(options);
 
   console.log(pano);
+
+  console.log('after');
 
 })();
 
