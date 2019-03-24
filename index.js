@@ -15,6 +15,15 @@ module.exports = class Equirectangular {
 
     const o = this._options;
 
+    const dep = 'magick';
+    const check = await exec(
+      commands['check for system dep'](dep)
+    );
+
+    if ( ! (check && check.stdout && check.stdout.toString().trim().length)) {
+      throw new TypeError(`System dependency not installed: \`${dep}\``);
+    }
+
     if ( ! (o.crop && util.isObject(o.crop) && (Object.keys(o.crop).length === 2))) {
       throw new TypeError(`Expected \`crop\` to be an object literal with two keys, got \`${o.crop}\` (${typeof o.crop})`);
     }
